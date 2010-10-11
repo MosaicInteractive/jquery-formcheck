@@ -163,6 +163,11 @@
 				}
 			}, options);
 			
+			//internalization
+  		if (typeof(options.formcheckLanguage) != 'undefined'){
+  		  $.extend( options.alerts, options.formcheckLanguage );
+  		}
+			
 			// find the spinner
 			var $spinner = options.spinnerClass ? $form.find('.' + options.spinnerClass).hide() : $([]);
 			var $message = options.messageClass ? $form.find('.' + options.messageClass).hide() : $([]);
