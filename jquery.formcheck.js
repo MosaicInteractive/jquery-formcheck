@@ -65,6 +65,13 @@
 				placeholders : true,
 				checkOnBlur : false,
 				onError : function() {},
+				display : {
+          scrollToFirst : false,
+          scrollDuration : 400,
+          scrollOffset : -7,
+          listErrorsAtTop : true,
+          scrollToMessage : true,
+        },
 				messages : {
 					invalid : 'Please complete the form',
 					error : 'Sorry, please try again'
@@ -161,6 +168,13 @@
 				}
 			});
 			
+			// scroll to first error
+			function scrollToElement( el ) {
+			  $('html, body').animate({
+          scrollTop: $(el).parent().offset().top + options.display.scrollOffset
+        }, options.display.scrollDuration );
+			}
+			
 			// return a validation method that should be bound to an input
 			function validator($this, methods) {
 				
@@ -230,6 +244,8 @@
 					if (!check($input) && !$invalid) $invalid = $input;
 				});
 				if ($invalid) {
+				  if(options.display.scrollToFirst) scrollToElement( $invalid );
+				  if(options.display.scrollToMessage) scrollToElement( $message );
 				  $message.text(options.messages.invalid).show();
 					options.onError.call(self, $invalid);
 				}
