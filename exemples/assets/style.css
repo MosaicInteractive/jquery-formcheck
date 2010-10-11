@@ -1,0 +1,25 @@
+form{
+  width: 400px;
+  position: relative;
+}
+
+input, select, textarea{
+  display: block;
+  margin-bottom: 1em;
+  margin-top: 0.2em;
+}
+
+fieldset{
+  margin-bottom: 2em;
+}
+input{
+  border: 1px solid #777;
+}
+
+input.submit{
+  float: right;
+}
+
+.invalid{
+  border: 1px solid #ff3333;
+}

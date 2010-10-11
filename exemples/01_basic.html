@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>jquery-formcheck exemple | basic 01</title>
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <link type="text/css" rel="stylesheet" media="all" href="assets/style.css" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script type="text/javascript" src="../jquery.formcheck.js"></script>
+  <script type="text/javascript">
+  <!--//--><![CDATA[//><!--
+  $(document).ready(function() {
+    $.FormCheck($("#formular"), {
+      messageClass : "message",
+      display : {
+        scrollToFirst : true,
+        listErrorsAtTop : true,
+      },
+    });
+  });
+  //--><!]]>
+  </script>
+</head>
+<body>
+  <span class="message"></span>
+  <form class="formular" id="formular" method="post" action="#">
+    <fieldset>
+      <legend>User informations</legend>
+      <label>
+        <span>Desired username : </span>
+        <input type="text" class="validate[required,length[6,16],alphanum] text-input" name="user" />
+      </label>
+      <label>
+        <span>First name : </span>
+        <input type="text" class="validate[required,length[3,-1],nodigit] text-input" name="firstname" />
+      </label>
+      <label>
+        <span>Last name : </span>
+        <input type="text" class="validate[required,length[3,-1],nodigit] text-input" name="lastname" />
+      </label>
+      <label>
+        <span>Age : </span>
+        <input type="text" class="validate[required,digit[16,120]] text-input" name="age" />
+      </label>
+    </fieldset>
+    <fieldset>
+      <legend>Password</legend>
+      <label>
+        <span>Password : </span>
+        <input type="password" class="validate[required,length[6,-1],alphanum] text-input" name="password" />
+      </label>
+      <label>
+        <span>Confirm password : </span>
+        <input type="password" class="validate[confirm[password]] text-input" name="password2" />
+      </label>
+    </fieldset>
+    <fieldset>
+      <legend>Email</legend>
+      <label>
+        <span>Email address : </span>
+        <input type="text" class="validate[required,email] text-input" name="email" />
+      </label>
+      <label>
+        <span>Confirm email address : </span>
+        <input type="text" class="validate[confirm[email]] text-input" name="email2" />
+      </label>
+    </fieldset>
+    <fieldset>
+      <legend>Conditions</legend>
+      <label>
+        <span>I accept terms of use : </span>
+        <input type="checkbox" class="validate[required] checkbox" name="agree" />
+      </label>
+    </fieldset>
+    <div class="button">
+      <input type="submit" value="Validate &amp; Send the form!" class="submit" />
+      <input type="reset" value="Reset" />
+    </div>
+  </form>
+</body>
+</html>
