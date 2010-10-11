@@ -230,7 +230,7 @@
 					if (!check($input) && !$invalid) $invalid = $input;
 				});
 				if ($invalid) {
-					$message.text(options.messages.invalid).show();
+				  $message.text(options.messages.invalid).show();
 					options.onError.call(self, $invalid);
 				}
 				return !$invalid;
