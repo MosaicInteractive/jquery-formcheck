@@ -1,5 +1,12 @@
+html, body{
+  margin: 0;
+  padding: 0;
+  color: #555;
+}
+
 form{
   width: 400px;
+  margin: 20px auto;
   position: relative;
 }
 
@@ -11,7 +18,15 @@ input, select, textarea{
 
 fieldset{
   margin-bottom: 2em;
+  background: #fbfbfb;
+  border: 1px solid #dedede;
+  padding: 1em;
 }
+
+legend{
+  color: #222;
+}
+
 input{
   border: 1px solid #777;
 }
@@ -21,5 +36,13 @@ input.submit{
 }
 
 .invalid{
-  border: 1px solid #ff3333;
+  border: 1px solid #ff6757;
+}
+
+.message{
+  background: #fffdd5;
+  border: 1px solid #ffd227;
+  display: none;
+  margin: 1em 0;
+  padding: 1.2em;
 }
