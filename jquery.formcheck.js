@@ -148,9 +148,6 @@
 						  valid = ( val.length >= min && val.length <= max );
 						}
 						addMessageToElement( this, message);
-						/*$messages = this.data("messages");
-					  if( !valid ) $messages.push(message);
-					  this.data("messages", $messages);*/
 					  return valid;
 					},
 					date : function(val, format) {
