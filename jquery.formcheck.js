@@ -149,9 +149,6 @@
 						}
 						
 						$messages = this.data("messages");
-					  if( typeof($messages) == 'undefined' ){
-					    $messages = [];
-					  }
 					  if( !valid ) $messages.push(message);
 					  this.data("messages", $messages);
 					  return valid;
@@ -306,11 +303,8 @@
 				// turn each method into a validator against a regexp or function
 				methods = $.map(methods, function(method) {
 					if (method == 'required')
-						return function(val) { 
+						return function(val) {
 						  $messages = $this.data("messages");
-						  if( typeof($messages) == 'undefined' ){
-						    $messages = [];
-						  }
 						  if( !val ) $messages.push(options.alerts.required);
 						  $this.data("messages", $messages);
 						  return !!val; 
