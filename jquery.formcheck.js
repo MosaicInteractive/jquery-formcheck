@@ -136,9 +136,25 @@
 					url : /^(http|https|ftp)\:\/\/[a-z0-9\-\.]+\.[a-z]{2,3}(:[a-z0-9]*)?\/?([a-z0-9\-\._\?\,\'\/\\\+&amp;%\$#\=~])*$/i,
 					ssn : /^\d{3}-\d{2}-\d{4}$/,
 					length : function(val, min, max) {
-					  if (!max) return val.length == min;
-						else if (max < 0) return val.length >= min;
-						else return val.length >= min && val.length <= max;
+					  var valid = false;
+					  var message = options.alerts.length_str.replace("%0", min).replace("%1", max);
+					  if (!max){
+					    valid = ( val.length == min );
+					    message = options.alerts.lengthmin.replace("%0", min);
+						}else if (max < 0){
+						  valid = ( val.length >= min );
+						  message = options.alerts.lengthmax.replace("%0", max);
+						}else{
+						  valid = ( val.length >= min && val.length <= max );
+						}
+						
+						$messages = this.data("messages");
+					  if( typeof($messages) == 'undefined' ){
+					    $messages = [];
+					  }
+					  if( !valid ) $messages.push(message);
+					  this.data("messages", $messages);
+					  return valid;
 					},
 					date : function(val, format) {
 						format = (format || 'm-d-yyyy').toLowerCase().replace(/(m+)/, function() { return '(0' + (RegExp.lastParen.length == 1 ? '?' : '') + '[1-9]|1[0-2])'; })
@@ -224,7 +240,6 @@
 			  //determine position
     		var coord = $obj.target ? $($obj.target).position() : $obj.position();
     		var $el = $obj.data("element");
-    		
     		if(!$el && options.display.indicateErrors != 0) {
     		  if (options.display.errorsLocation == 1) {
     		    //var pos = (options.display.tipsPosition == 'left') ? coord.left : coord.left + $($obj.target).outerWidth();
@@ -259,8 +274,7 @@
     					
     					//line ~870
     				});
-    				//$obj.element.css('top', coord.top - tips.getCoordinates().height + this.options.display.tipsOffsetY);
-    				$($el).css('top', coord.top - 30 + options.display.tipsOffsetY);
+    				$($el).css('top', coord.top - $el.outerHeight() + options.display.tipsOffsetY);
   			  }else{
   			    //l-880
   			  }
@@ -297,7 +311,7 @@
 						  if( typeof($messages) == 'undefined' ){
 						    $messages = [];
 						  }
-						  $messages.push(options.alerts.required);
+						  if( !val ) $messages.push(options.alerts.required);
 						  $this.data("messages", $messages);
 						  return !!val; 
 						};
