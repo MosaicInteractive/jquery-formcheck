@@ -261,8 +261,6 @@
     				});
     				//$obj.element.css('top', coord.top - tips.getCoordinates().height + this.options.display.tipsOffsetY);
     				$($el).css('top', coord.top - 30 + options.display.tipsOffsetY);
-    				console.log("k");
-    				console.log($obj);
   			  }else{
   			    //l-880
   			  }
