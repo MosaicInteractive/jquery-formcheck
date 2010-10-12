@@ -325,15 +325,20 @@
 						options.special[method].apply($this, args);
 						return null;
 					}
-					
+					var method_message = options.alerts[method];
 					method = options.validators[method];
 					
 					return method ? function(val) {
 						if (val) {
-							if (method instanceof RegExp)
-								return method.test(val);
-							else if (method instanceof Function)
-								return method.apply($this, [val].concat(args));
+							if (method instanceof RegExp){
+							  var valid = method.test(val);
+							  if( !valid ) addMessageToElement( $this, method_message);
+								return valid;
+							}else if (method instanceof Function){
+							  var valid = method.apply($this, [val].concat(args));
+							  if( !valid ) addMessageToElement( $this, method_message);
+								return valid;
+							}
 						}
 						return true;
 					} : null;
