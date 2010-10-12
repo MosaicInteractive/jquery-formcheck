@@ -4,6 +4,11 @@ html, body{
   color: #555;
 }
 
+p{
+  margin: 0;
+  padding: 0;
+}
+
 form{
   width: 400px;
   margin: 20px auto;
@@ -45,4 +50,19 @@ input.submit{
   display: none;
   margin: 1em 0;
   padding: 1.2em;
+}
+
+.fc-tbx{
+  background: #fffdd5;
+  border: 1px solid #ffd227;
+  padding: 1em;
+  position: relative;
+}
+
+.tip_arrow{
+  position: absolute;
+  right: -16px;
+  top: 15px;
+  border: 8px solid #ffd227;
+  border-color: transparent transparent transparent #ffd227;
 }

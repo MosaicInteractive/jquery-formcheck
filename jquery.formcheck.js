@@ -58,6 +58,8 @@
 			options = $.extend(true, {
 				ajax : {},
 				rules : null,
+				tipsClass : 'fc-tbx',				//tips error class
+      	errorClass : 'fc-error',			//div error class
 				invalidClass : 'invalid',
 				limitClass : 'full',
 				spinnerClass : 'spinner',
@@ -134,7 +136,7 @@
 					url : /^(http|https|ftp)\:\/\/[a-z0-9\-\.]+\.[a-z]{2,3}(:[a-z0-9]*)?\/?([a-z0-9\-\._\?\,\'\/\\\+&amp;%\$#\=~])*$/i,
 					ssn : /^\d{3}-\d{2}-\d{4}$/,
 					length : function(val, min, max) {
-						if (!max) return val.length == min;
+					  if (!max) return val.length == min;
 						else if (max < 0) return val.length >= min;
 						else return val.length >= min && val.length <= max;
 					},
@@ -218,6 +220,63 @@
 				}
 			});
 			
+			function addError($obj){
+			  //determine position
+    		var coord = $obj.target ? $($obj.target).position() : $obj.position();
+    		var $el = $obj.data("element");
+    		
+    		if(!$el && options.display.indicateErrors != 0) {
+    		  if (options.display.errorsLocation == 1) {
+    		    //var pos = (options.display.tipsPosition == 'left') ? coord.left : coord.left + $($obj.target).outerWidth();
+    		    var pos = (options.display.tipsPosition == 'left') ? coord.left : coord.left + $($obj).outerWidth();
+    		    var opt_css = {
+    					'opacity' : 0,
+    					'position' : 'absolute',
+    					'float' : 'left',
+    					'left' : pos + options.display.tipsOffsetX,
+    				};
+    		    $el = $('<div class="' + options.tipsClass + '"></div>').css(opt_css).prependTo($('body'));
+    		    //this.addPositionEvent(obj);
+    		  } else if (options.display.errorsLocation == 2){
+    		    $el = $('<div class="' + options.errorClass + '"></div>').css({'opacity' : 0}).before($obj);
+    		  } else if (options.display.errorsLocation == 3){
+    		    $el = $('<div class="' + options.errorClass + '"></div>').css({'opacity' : 0});
+    				if (typeof $obj.group == 'object' || typeof $obj.group == 'collection')
+    					$($el).after($obj.group[$obj.group.length-1]);
+    				else
+    					$($el).after($obj);
+    		  }
+  		  }
+  		  
+  		  if ($el && $el != true) {
+    			$el.empty();
+    			$($el).append('<div class="tip_arrow"></div>');
+    			if (options.display.errorsLocation == 1) {
+    			  var errors = $obj.data("messages");
+    				$(errors).each(function(key, val) {
+    					//errors.push("<p>" + error + "</p>");
+    					$($el).append("<p>" + val + "</p>")
+    					
+    					//line ~870
+    				});
+    				//$obj.element.css('top', coord.top - tips.getCoordinates().height + this.options.display.tipsOffsetY);
+    				$($el).css('top', coord.top - 30 + options.display.tipsOffsetY);
+    				console.log("k");
+    				console.log($obj);
+  			  }else{
+  			    //l-880
+  			  }
+  			  
+  			  if (!options.display.fadeDuration || options.display.errorsLocation < 2) {
+    				$($el).css('opacity', 1);
+    			} else {
+    			  
+  			  }
+  			}
+  			
+  			$obj.data("element", $el);
+			}
+			
 			// scroll to first error
 			function scrollToElement( el ) {
 			  $('html, body').animate({
@@ -227,8 +286,7 @@
 			
 			// return a validation method that should be bound to an input
 			function validator($this, methods) {
-				
-				// separate method arguments by semicolons, then make methods into array
+			  // separate method arguments by semicolons, then make methods into array
 				methods = methods.replace(/\[(.*?)\]/g, function(str, args) {
 					return '[' + args.replace(/,/g, ';') + ']';
 				}).split(',');
@@ -236,7 +294,15 @@
 				// turn each method into a validator against a regexp or function
 				methods = $.map(methods, function(method) {
 					if (method == 'required')
-						return function(val) { return !!val; };
+						return function(val) { 
+						  $messages = $this.data("messages");
+						  if( typeof($messages) == 'undefined' ){
+						    $messages = [];
+						  }
+						  $messages.push(options.alerts.required);
+						  $this.data("messages", $messages);
+						  return !!val; 
+						};
 					
 					// get a method name and its arguments
 					var matches = method.match(/^(.+?)(\[(.+?)\])?$/);
@@ -279,11 +345,18 @@
 			
 			// validate an input
 			function check($input) {
+			  $input.data("messages", [] );
+			  
+			  var $el = $input.data("element");
+        if( $el ){
+          $el.css("opacity", 0);
+          $el.empty();
+        }
+        
 				var validator = $input.data('validator');
 				var valid = validator ? validator.call($input) : true;
-				
 				$input[valid ? 'removeClass' : 'addClass'](options.invalidClass);
-
+				
 				return valid;
 			}
 			
@@ -297,6 +370,7 @@
 				  if(options.display.scrollToFirst) scrollToElement( $invalid );
 				  if(options.display.scrollToMessage) scrollToElement( $message );
 				  $message.text(options.messages.invalid).show();
+				  addError($invalid);
 					options.onError.call(self, $invalid);
 				}
 				return !$invalid;
