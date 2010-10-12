@@ -147,10 +147,10 @@
 						}else{
 						  valid = ( val.length >= min && val.length <= max );
 						}
-						
-						$messages = this.data("messages");
+						addMessageToElement( this, message);
+						/*$messages = this.data("messages");
 					  if( !valid ) $messages.push(message);
-					  this.data("messages", $messages);
+					  this.data("messages", $messages);*/
 					  return valid;
 					},
 					date : function(val, format) {
@@ -286,6 +286,12 @@
   			$obj.data("element", $el);
 			}
 			
+			function addMessageToElement( el, message ){
+			  var messages = el.data("messages");
+			  messages.push(message);
+			  el.data("messages", messages);
+			}
+			
 			// scroll to first error
 			function scrollToElement( el ) {
 			  $('html, body').animate({
@@ -304,9 +310,7 @@
 				methods = $.map(methods, function(method) {
 					if (method == 'required')
 						return function(val) {
-						  $messages = $this.data("messages");
-						  if( !val ) $messages.push(options.alerts.required);
-						  $this.data("messages", $messages);
+						  if( !val ) addMessageToElement( $this, options.alerts.required);
 						  return !!val; 
 						};
 					
