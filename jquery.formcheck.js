@@ -284,6 +284,7 @@
 			}
 			
 			function addMessageToElement( el, message ){
+			  if( typeof(message) == "undefined" ) return;
 			  var messages = el.data("messages");
 			  messages.push(message);
 			  el.data("messages", messages);
