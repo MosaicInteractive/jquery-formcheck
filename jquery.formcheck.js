@@ -7,16 +7,13 @@
 (function($) {
 	
 	// METHODS
-	
 	$.fn.extend({
-		
 		trim : function() {
 			this.find('*').andSelf().filter('input:text, textarea').each(function() {
 				this.value = $.trim(this.value);
 			});
 			return this;
 		},
-		
 		placeholder : function() {
 			var args = arguments;
 			this.find('*').andSelf().filter('input:text, textarea').each(function(i) {
@@ -30,13 +27,11 @@
 			});
 			return this;
 		},
-		
 		reset : function() {
 			this.filter('form').each(function() { this.reset(); });
 			this.filter('input, textarea').each(function() { this.value = this.defaultValue; });
 			return this;
 		},
-		
 		addRules : function() {
 			var args = $.makeArray(arguments);
 			return this.addClass('validate[' + args.join(',') + ']');
@@ -44,9 +39,7 @@
 	});
 	
 	// CLASSES
-	
 	$.extend({
-		
 		// many pieces inspired and taken from MooTools plugin, FormCheck - http://mootools.floor.ch/en/labs/formcheck
 		FormCheck : function(form, options) {
 			var self = this;
