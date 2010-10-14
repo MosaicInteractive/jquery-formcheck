@@ -143,6 +143,17 @@
 						addMessageToElement( this, message);
 					  return valid;
 					},
+					confirm : function( val, targ ) {
+					  var valid = true;
+					  $target = $form.find('*[name='+targ+']');
+					  if( $target.val() != this.val() ){
+					    var message = options.alerts.confirm.replace("%0", targ);
+  					  addMessageToElement( this, message);
+					    valid = false;
+					  }
+					  
+					  return valid;
+					},
 					date : function(val, format) {
 						format = (format || 'm-d-yyyy').toLowerCase().replace(/(m+)/, function() { return '(0' + (RegExp.lastParen.length == 1 ? '?' : '') + '[1-9]|1[0-2])'; })
 																	 .replace(/(d+)/, function() { return '(0' + (RegExp.lastParen.length == 1 ? '?' : '') + '[1-9]|[1-2][0-9]|3[0-1])'; })
@@ -283,7 +294,7 @@
 			  el.data("messages", messages);
 			}
 			
-			// scroll to first error
+			// scroll to element
 			function scrollToElement( el ) {
 			  $('html, body').animate({
           scrollTop: $(el).parent().offset().top + options.display.scrollOffset
@@ -320,10 +331,11 @@
 						return null;
 					}
 					var method_message = options.alerts[method];
+					if( method == "confirm" ) method_message = undefined;
 					method = options.validators[method];
 					
 					return method ? function(val) {
-						if (val) {
+						//if (val) {
 							if (method instanceof RegExp){
 							  var valid = method.test(val);
 							  if( !valid ) addMessageToElement( $this, method_message);
@@ -333,7 +345,7 @@
 							  if( !valid ) addMessageToElement( $this, method_message);
 								return valid;
 							}
-						}
+						//}
 						return true;
 					} : null;
 				});
@@ -341,7 +353,6 @@
 				return function() {
 					var val = $.trim(this.val());
 					if (val == this[0].defaultValue) val = '';
-					
 					for (var i = 0, l = methods.length; i < l; i++)
 						if (!methods[i](val)) return false;
 					
@@ -359,7 +370,7 @@
           $el.empty();
         }
         
-				var validator = $input.data('validator');
+        var validator = $input.data('validator');
 				var valid = validator ? validator.call($input) : true;
 				$input[valid ? 'removeClass' : 'addClass'](options.invalidClass);
 				
