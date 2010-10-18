@@ -312,8 +312,15 @@
 				methods = $.map(methods, function(method) {
 					if (method == 'required')
 						return function(val) {
-						  if( !val ) addMessageToElement( $this, options.alerts.required);
-						  return !!val; 
+						  var result = false;
+						  if( $this.is(':checkbox')){
+						    if($this.is(':checked')) result = true;
+						  }else{
+						    result = !!val;
+						  }
+						  
+						  if( !result ) addMessageToElement( $this, options.alerts.required);
+						  return result; 
 						};
 					
 					// get a method name and its arguments
