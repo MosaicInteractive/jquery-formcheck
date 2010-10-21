@@ -196,7 +196,7 @@
 			}, options);
 			
 			//internalization
-  		if (JQuery.type(options.formcheckLanguage) != 'undefined'){
+  		if ($.type(options.formcheckLanguage) != 'undefined'){
   		  $.extend( options.alerts, options.formcheckLanguage );
   		}
 			
@@ -288,7 +288,7 @@
 			}
 			
 			function addMessageToElement( el, message ){
-			  if( JQuery.type(message) == "undefined" ) return;
+			  if( $.type(message) == "undefined" ) return;
 			  var messages = el.data("messages");
 			  messages.push(message);
 			  el.data("messages", messages);
