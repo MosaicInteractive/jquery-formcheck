@@ -396,6 +396,7 @@
 				  }else{
 				    if(options.display.scrollToMessage) scrollToElement( $message );
 				  }
+				  $invalid.focus();
 				  $message.text(options.messages.invalid).show();
 				  addError($invalid);
 					options.onError.call(self, $invalid);
