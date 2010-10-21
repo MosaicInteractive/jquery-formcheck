@@ -391,8 +391,11 @@
 					if (!check($input) && !$invalid) $invalid = $input;
 				});
 				if ($invalid) {
-				  if(options.display.scrollToFirst) scrollToElement( $invalid );
-				  if(options.display.scrollToMessage) scrollToElement( $message );
+				  if(options.display.scrollToFirst){
+				    scrollToElement( $invalid );
+				  }else{
+				    if(options.display.scrollToMessage) scrollToElement( $message );
+				  }
 				  $message.text(options.messages.invalid).show();
 				  addError($invalid);
 					options.onError.call(self, $invalid);
